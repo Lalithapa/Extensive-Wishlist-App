@@ -1,0 +1,37 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "c09facb4246890e1354b6ed5b0a2c398"
+name = "extensive-wishlist"
+handle = "extensive-wishlist"
+application_url = "https://procedures-running-houses-membrane.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "wishlist-lot.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products,write_files"
+
+[auth]
+redirect_urls = [
+  "https://procedures-running-houses-membrane.trycloudflare.com/auth/callback",
+  "https://procedures-running-houses-membrane.trycloudflare.com/auth/shopify/callback",
+  "https://procedures-running-houses-membrane.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2025-01"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+[pos]
+embedded = false
