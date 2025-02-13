@@ -1,84 +1,72 @@
 import {
-    Box,
-    Card,
-    Layout,
-    Link,
-    List,
     Page,
+    FormLayout,
+    TextField,
+    LegacyStack,
     Text,
-    BlockStack,
+    InlineGrid,
   } from "@shopify/polaris";
-  import { TitleBar } from "@shopify/app-bridge-react";
+import { useState } from "react";
   
   export default function Settings() {
+    const [storeName, setStoreName] = useState("");
+    const [accountEmail, setAccountEmail] = useState("");
     return (
       <Page>
-        <TitleBar title="Additional page" />
-        <Layout>
-          <Layout.Section>
-            <Card>
-              <BlockStack gap="300">
-                <Text as="p" variant="bodyMd">
-                  The app template comes with an Setings page which
-                  demonstrates how to create multiple pages within app navigation
-                  using{" "}
-                  <Link
-                    url="https://shopify.dev/docs/apps/tools/app-bridge"
-                    target="_blank"
-                    removeUnderline
-                  >
-                    App Bridge
-                  </Link>
-                  .
-                </Text>
-                <Text as="p" variant="bodyMd">
-                  To create your own page and have it show up in the app
-                  navigation, add a page inside <Code>app/routes</Code>, and a
-                  link to it in the <Code>&lt;NavMenu&gt;</Code> component found
-                  in <Code>app/routes/app.jsx</Code>.
-                </Text>
-              </BlockStack>
-            </Card>
-          </Layout.Section>
-          <Layout.Section variant="oneThird">
-            <Card>
-              <BlockStack gap="200">
-                <Text as="h2" variant="headingMd">
-                  Resources
-                </Text>
-                <List>
-                  <List.Item>
-                    <Link
-                      url="https://shopify.dev/docs/apps/design-guidelines/navigation#app-nav"
-                      target="_blank"
-                      removeUnderline
-                    >
-                      App nav best practices
-                    </Link>
-                  </List.Item>
-                </List>
-              </BlockStack>
-            </Card>
-          </Layout.Section>
-        </Layout>
+        <LegacyStack vertical>
+            <Text variant="heading2xl" as="h3">
+               Dashboard
+            </Text>
+        </LegacyStack>
+
+        <SpacingBackground>
+      <InlineGrid gap="400" columns={3}>
+        <Placeholder height="320px" />
+        <Placeholder height="320px" />
+        <Placeholder height="320px" />
+      </InlineGrid>
+    </SpacingBackground>
+        <FormLayout >
+            <TextField label="Store name"
+                    onChange={(value) => setStoreName(value)}
+                    autoComplete="off"
+                    value={storeName} />
+            <TextField
+                    type="email"
+                    label="Account email"
+                    onChange={(value) => setAccountEmail(value)}
+                    autoComplete="email"
+                    value={accountEmail}
+                />
+        </FormLayout>
       </Page>
     );
-  }
-  
-  function Code({ children }) {
+  } 
+  const SpacingBackground = ({ children, width = '100%' }) => {
     return (
-      <Box
-        as="span"
-        padding="025"
-        paddingInlineStart="100"
-        paddingInlineEnd="100"
-        background="bg-surface-active"
-        borderWidth="025"
-        borderColor="border"
-        borderRadius="100"
+      <div
+        style={{
+          background: 'var(--p-color-bg-surface-success)',
+          width,
+          height: 'auto',
+        }}
       >
-        <code>{children}</code>
-      </Box>
+        {children}
+      </div>
     );
-  }
+  };
   
+  const Placeholder = ({height = 'auto', width = 'auto'}) => {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: 'var(--p-color-bg-surface)',
+          height: height ?? undefined,
+          width: width ?? undefined,
+        }}
+      ><Text>Text</Text> </div>
+    );
+  };
