@@ -1,19 +1,27 @@
 
-import { json, useLoaderData } from "@remix-run/react";
-import { BlockStack, Box, Button, Card, Form, InlineGrid, Page, Text, TextField } from "@shopify/polaris";
+import { json, useLoaderData , Form } from "@remix-run/react";
+import { BlockStack, Box, Card, InlineGrid, Button, Page, Text, TextField } from "@shopify/polaris";
 import { useEffect, useState } from "react";
 
 //
 export async function loader(){
 const settings= {
-  name: "My Store",
+  name: "My Stored",
   description: "This is my store"
 }
 return json(settings);
 }
 
-export async function action(){
-alert("Data Saved");
+export async function action({request}){
+  const method = request.method;
+  switch(method){
+    case "POST":
+     return json({message: 'Data Post successfully', status: 200 , method: method});
+     case "PUT":
+      return json({message: 'Data Put successfully', status: 200 , method: method});
+    default:
+      return json({message: 'Invalid request method', status: 400, method: method});
+  }
 }
 
 export default function Settings() {
@@ -62,12 +70,12 @@ export default function Settings() {
             </BlockStack>
           </Box>
           <Card roundedAbove="sm">
-            <Form method="POST">
-            <BlockStack gap="400">
-              <TextField label="Name" value={ storeDetails?.name } onChange={(value)=>updateForm('name',value)} />
-              <TextField label="Description" value={ storeDetails?.description }  onChange={(value)=>updateForm('description',value)} />
-                <Button submit={!isFormUpdated} disabled={!isFormUpdated} >Save Data</Button>
-            </BlockStack>
+          <Form method="POST" >
+              <BlockStack gap="400">
+                <TextField label="Name" name="name" value={ storeDetails?.name } onChange={(value)=>updateForm('name',value)} />
+                <TextField label="Description" name="description" value={ storeDetails?.description }  onChange={(value)=>updateForm('description',value)} />
+                  <Button submit={true} disabled={!isFormUpdated} >Save Data</Button>
+              </BlockStack>
            </Form>
           </Card>
         </InlineGrid>

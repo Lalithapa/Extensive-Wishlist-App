@@ -3,7 +3,7 @@
 client_id = "c09facb4246890e1354b6ed5b0a2c398"
 name = "extensive-wishlist"
 handle = "extensive-wishlist"
-application_url = "https://instruments-pn-filme-lincoln.trycloudflare.com"
+application_url = "https://jessica-purse-equity-maldives.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,write_files"
 
 [auth]
 redirect_urls = [
-  "https://instruments-pn-filme-lincoln.trycloudflare.com/auth/callback",
-  "https://instruments-pn-filme-lincoln.trycloudflare.com/auth/shopify/callback",
-  "https://instruments-pn-filme-lincoln.trycloudflare.com/api/auth/callback"
+  "https://jessica-purse-equity-maldives.trycloudflare.com/auth/callback",
+  "https://jessica-purse-equity-maldives.trycloudflare.com/auth/shopify/callback",
+  "https://jessica-purse-equity-maldives.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
