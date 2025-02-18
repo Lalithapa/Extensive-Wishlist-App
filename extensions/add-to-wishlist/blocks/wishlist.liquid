@@ -1,0 +1,116 @@
+<div
+  class="wishlist-engine"
+  x-data="wishlist"
+>
+  <div class="wishlist-engine-button">
+    <button class="wishlist-icon" @click="addToWishlist()">
+      <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      stroke="#000"
+      stroke-width="2"
+      :fill="wishlisted ? '#fff' : '#000'"
+    >
+      <path
+        d="M20.8 4.6c-1.6-1.5-4-1.5-5.6 0l-.2.2-.2-.2c-1.6-1.5-4-1.5-5.6 0-1.7 1.6-1.7 4.1 0 5.6l5.8 5.8 5.8-5.8c1.6-1.5 1.6-4.1 0-5.6z"
+      />
+    </svg>
+        <span x-show="!wishlisted">Add to Wishlist</span>
+        <span  x-show="wishlisted" >Added to Wishlist</span>
+    </button>
+  </div>
+</div>
+<style>
+  .wishlist-icon {
+  background: transparent;
+  position: relative;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  color:{{ block.settings.colour }};
+  border: 1px solid {{ block.settings.colour }};
+  border-radius: 25px;
+  outline: none;
+  overflow: hidden;
+  transition: color 0.3s 0.1s ease-out;
+  text-align: center;
+  }
+
+  .wishlist-icon span {
+    margin: 10px;
+  }
+
+  .wishlist-icon::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    content: '';
+    border-radius: 50%;
+    display: block;
+    width: 20em;
+    height: 20em;
+    left: -5em;
+    text-align: center;
+    transition: box-shadow 0.5s ease-out;
+    z-index: -1;
+  }
+
+  .wishlist-icon:hover {
+    /* color: #fff;
+    border: 1px solid {{ block.settings.colour }}; */
+  }
+
+  .wishlist-icon:hover::before {
+    box-shadow: inset 0 0 0 10em {{ block.settings.colour }};
+  }
+</style>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('wishlist', () => ({
+      wishlisted: false,
+      addToWishlist() {
+        debugger;
+        {% unless customer %}
+          alert("Kindly Login First");
+           return;
+          {% endunless %}
+          const formdata = new FormData();
+          const shop_Api = "https://crossword-jackie-fired-bhutan.trycloudflare.com"
+        formdata.append("customerId", "{{ customer.id }}");
+        formdata.append("productId", "{{ product.id }}");
+        formdata.append("shop", "{{ shop.permanent_domain }}");
+
+        const requestOptions = {
+          method: "POST",
+          body: formdata,
+          redirect: "follow"
+        };
+
+        fetch(shop_Api + "/api/wishlist", requestOptions)
+          .then((response) => response.text())
+          .then((result) => this.wishlisted = !this.wishlisted)
+          .catch((error) => console.error(error));
+              },
+    }));
+  });
+</script>
+{% schema %}
+{
+  "name": "Add to Wishlist",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "product", "autofill": true },
+    { "type": "color", "id": "colour", "label": "Icon Colour", "default": "#ff0000" }
+  ]
+}
+{% endschema %}

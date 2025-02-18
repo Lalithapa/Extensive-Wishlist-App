@@ -9,7 +9,7 @@ import db from "../db.server";
 export async function loader(){
   let settings = await db.settings.findFirst({
     where: {
-      id: "Makeup Page" // Condition
+      id: "1" // Condition
     }
   }
   );
