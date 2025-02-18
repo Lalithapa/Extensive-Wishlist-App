@@ -2,26 +2,41 @@
 import { json, useLoaderData , Form } from "@remix-run/react";
 import { BlockStack, Box, Card, InlineGrid, Button, Page, Text, TextField } from "@shopify/polaris";
 import { useEffect, useState } from "react";
+import db from "../db.server";
+
 
 //
 export async function loader(){
-const settings= {
-  name: "My Stored",
-  description: "This is my store"
-}
-return json(settings);
+  let settings = await db.settings.findFirst({
+    where: {
+      id: "Makeup Page" // Condition
+    }
+  }
+  );
+  return json(settings);
 }
 
-export async function action({request}){
-  const method = request.method;
-  switch(method){
-    case "POST":
-     return json({message: 'Data Post successfully', status: 200 , method: method});
-     case "PUT":
-      return json({message: 'Data Put successfully', status: 200 , method: method});
-    default:
-      return json({message: 'Invalid request method', status: 400, method: method});
-  }
+export async function action({ request }) {
+  let formData = await request.formData();
+  let settings = Object.fromEntries(formData);
+
+  await db.settings.upsert({
+    where: {
+      id: "1"
+    },
+    update: {
+      id: "1",
+      shop: settings?.shop,
+      description: settings?.description
+    },
+    create: {
+      id: "1",
+      shop: settings?.shop,
+      description: settings?.description
+    }
+  });
+
+  return json(settings);
 }
 
 export default function Settings() {
@@ -72,7 +87,7 @@ export default function Settings() {
           <Card roundedAbove="sm">
           <Form method="POST" >
               <BlockStack gap="400">
-                <TextField label="Name" name="name" value={ storeDetails?.name } onChange={(value)=>updateForm('name',value)} />
+                <TextField label="Name" name="shop" value={ storeDetails?.shop } onChange={(value)=>updateForm('shop',value)} />
                 <TextField label="Description" name="description" value={ storeDetails?.description }  onChange={(value)=>updateForm('description',value)} />
                   <Button submit={true} disabled={!isFormUpdated} >Save Data</Button>
               </BlockStack>
