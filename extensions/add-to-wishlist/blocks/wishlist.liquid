@@ -79,35 +79,41 @@
     Alpine.data('wishlist', () => ({
       wishlisted: false,
       addToWishlist() {
-        debugger;
+        // debugger;
         {% unless customer %}
           alert("Kindly Login First");
            return;
           {% endunless %}
           const formdata = new FormData();
-          const shop_Api = "https://for-percentage-brush-nominated.trycloudflare.com";
-        formdata.append("customerId", "{{ customer.id }}");
-        formdata.append("productId", "{{ product.id }}");
-        formdata.append("shop", "{{ shop.permanent_domain }}");
+          const shop_Api = "https://powerseller-twisted-agencies-female.trycloudflare.com";
+          formdata.append("customerId", "{{ customer.id }}");
+          formdata.append("productId", "{{ product.id }}");
+          formdata.append("shop", "{{ shop.permanent_domain }}");
 
         const requestOptions = {
           method: "POST",
           body: formdata,
+          headers: {
+            "Accept": "application/json" // Try adding this header
+          },
           redirect: "follow"
         };
 
         fetch(shop_Api + "/api/wishlist", requestOptions)
           .then((response) => response.text())
-          .then((result) => this.wishlisted = !this.wishlisted)
+          .then((result) => {
+            console.log('result',result);
+            this.wishlisted = !this.wishlisted
+          })
           .catch((error) => console.error(error));
-              },
-    }));
-  });
+        },
+      }));
+    });
 </script>
 {% schema %}
 {
   "name": "Add to Wishlist",
-  "target": "section",
+  "target":"section", 
   "settings": [
     { "type": "product", "id": "product", "label": "product", "autofill": true },
     { "type": "color", "id": "colour", "label": "Icon Colour", "default": "#ff0000" }
