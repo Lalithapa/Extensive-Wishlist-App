@@ -32,7 +32,15 @@ model Session {
 }
 
 model Settings {
-  id            String    @id
-  shop          String
-  description   String
+  id          String @id
+  shop        String
+  description String
+}
+
+model Wishlist {
+  id         Int      @id @default(autoincrement())
+  customerId String?
+  productId  String?
+  shop       String?
+  createdAt  DateTime @default(now())
 }
