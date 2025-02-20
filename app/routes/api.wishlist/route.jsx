@@ -2,8 +2,24 @@ import { json } from '@remix-run/react';
 import db from '../../db.server';
 import { cors } from 'remix-utils/cors';
 
-export async function loader(){
-  const mainList = await db.wishlist.findMany({});
+export async function loader({request}){
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
+  const customerId = searchParams.get('customerId');
+  const productId = searchParams.get('productId');
+  const shop = searchParams.get('shop');
+
+  if(!customerId || !productId || !shop){
+    return json({message: "Missing data. Required data: customerId ,productId or shop ", status: 400});
+  }
+
+  const mainList = await db.wishlist.findMany({
+    where: {
+      customerId: customerId, 
+      productId: productId,
+      shop: shop
+    }
+  });
   return json(mainList);
 }
 
