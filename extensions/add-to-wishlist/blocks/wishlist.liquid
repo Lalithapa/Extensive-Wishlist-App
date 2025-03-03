@@ -1,45 +1,49 @@
-<div
-  class="wishlist-engine"
-  x-data="wishlist"
->
-  <div class="wishlist-engine-button">
-    <button class="wishlist-icon" @click.debounce="addToWishlist()">
-      <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      stroke="#000"
-      stroke-width="2"
-      :fill="wishlisted ? '#000' : '#fff'"
-    >
-      <path
-        d="M20.8 4.6c-1.6-1.5-4-1.5-5.6 0l-.2.2-.2-.2c-1.6-1.5-4-1.5-5.6 0-1.7 1.6-1.7 4.1 0 5.6l5.8 5.8 5.8-5.8c1.6-1.5 1.6-4.1 0-5.6z"
-      />
-    </svg>
-        <span x-show="!wishlisted">Add to Wishlist</span>
-        <span  x-show="wishlisted" >Added to Wishlist</span>
+<div class="wishlist-engine" x-data="wishlist">
+  <div class="wishlist-engine-button" x-ref="wishlist">
+    <button class="wishlist-icon" :aria-wishlisted="wishlisted ? 'true' : 'false'"
+      @click.debounce="addToWishlist($refs.wishlist)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="#000" stroke-width="2"
+        :fill="wishlisted ? '#000' : '#fff'">
+        <path
+          d="M20.8 4.6c-1.6-1.5-4-1.5-5.6 0l-.2.2-.2-.2c-1.6-1.5-4-1.5-5.6 0-1.7 1.6-1.7 4.1 0 5.6l5.8 5.8 5.8-5.8c1.6-1.5 1.6-4.1 0-5.6z" />
+      </svg>
+      <span x-show="!wishlisted">Add to Wishlist</span>
+      <span x-show="wishlisted">Added to Wishlist</span>
     </button>
   </div>
 </div>
 <style>
   .wishlist-icon {
-  background: transparent;
-  position: relative;
-  padding: 0 15px;
-  display: flex;
-  align-items: center;
-  font-size: 17px;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  color:{{ block.settings.colour }};
-  border: 1px solid {{ block.settings.colour }};
-  border-radius: 25px;
-  outline: none;
-  overflow: hidden;
-  transition: color 0.3s 0.1s ease-out;
-  text-align: center;
+    background: transparent;
+    position: relative;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+
+    color: {
+        {
+        block.settings.colour
+      }
+    }
+
+    ;
+
+    border: 1px solid {
+        {
+        block.settings.colour
+      }
+    }
+
+    ;
+    border-radius: 25px;
+    outline: none;
+    overflow: hidden;
+    transition: color 0.3s 0.1s ease-out;
+    text-align: center;
   }
 
   .wishlist-icon span {
@@ -70,14 +74,20 @@
   }
 
   .wishlist-icon:hover::before {
-    box-shadow: inset 0 0 0 10em {{ block.settings.colour }};
+    box-shadow: inset 0 0 0 10em {
+        {
+        block.settings.colour
+      }
+    }
+
+    ;
   }
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script>
   document.addEventListener('alpine:init', () => {
     Alpine.data('wishlist', () => ({
-      api_url: "https://rotation-je-chargers-prince.trycloudflare.com",
+      api_url: "https://blogging-genuine-ross-based.trycloudflare.com",
       wishlisted: false,
       requestOptions: {
         method: "GET",
@@ -87,27 +97,33 @@
           "Accept": "application/json"
         },
       },
-      init() {  
+      init() {
         // console.log("Enable Cors Blocker");
         fetch(this.api_url + "/api/wishlist?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}", this.requestOptions)
           .then((response) => response.text())
-          .then((result) => {if (result.length > 2) this.wishlisted = true; // beacuse the response is "[]" (string) if the product is not in the wishlist
-})
+          .then((result) => {
+            if (result.length > 2) this.wishlisted = true; // beacuse the response is "[]" (string) if the product is not in the wishlist
+          })
           .catch((error) => console.warn(error));
       },
-      addToWishlist() {
+      addToWishlist(event) {
         {% unless customer %}
-          alert("Kindly Login First");
-          return;
+        alert("Kindly Login First");
+        return;
         {% endunless %}
+        let button = event.querySelector(".wishlist-icon");
+        let wishlistedValue = button.getAttribute("aria-wishlisted");
+
+
         const formdata = new FormData();
-        const shop_Api = "https://rotation-je-chargers-prince.trycloudflare.com";
+        const shop_Api = "https://blogging-genuine-ross-based.trycloudflare.com";
         formdata.append("customerId", "{{ customer.id }}");
         formdata.append("productId", "{{ product.id }}");
         formdata.append("shop", "{{ shop.permanent_domain }}");
+        let wishlist_add_delete = wishlistedValue === 'false' ? "POST" : "DELETE";
 
         const requestOptions = {
-          method: "POST",
+          method: wishlist_add_delete,
           body: formdata,
           headers: {
             "Accept": "application/json" // Try adding this header
@@ -118,40 +134,51 @@
         fetch(shop_Api + "/api/wishlist", requestOptions)
           .then((response) => response.text())
           .then((result) => {
-            console.log('result',result);
-            this.wishlisted = !this.wishlisted
+            this.wishlisted = !this.wishlisted;
+            alert(`Product has been ${wishlistedValue === 'false' ? 'added' : 'removed'} from the wishlist`);
           })
           .catch((error) => console.error(error));
-        },
-      }));
-    });
+      },
+    }));
+  });
 </script>
 {% schema %}
 {
-  "name": "Add to Wishlist",
-  "target":"section", 
-  "settings": [
-    { "type": "product", "id": "product", "label": "product", "autofill": true },
-    { "type": "color", "id": "colour", "label": "Icon Colour", "default": "#ff0000" }
-  ]
+"name": "Add to Wishlist",
+"target": "section",
+"settings": [
+{ "type": "product", "id": "product", "label": "product", "autofill": true },
+{ "type": "color", "id": "colour", "label": "Icon Colour", "default": "#ff0000" }
+]
 }
 {% endschema %}
-{% comment %}   
-  I have created a custom section in Shopify and I want to add a product to the wishlist. I have created a custom API in Node.js and I am calling that API to add a product to the wishlist. 
-  The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not change the button text to "Added to Wishlist". 
-  I have tried to use the  wishlisted  variable to change the button text but it is not working. 
-  I am using the  Alpine.js  library to handle the JavaScript part. 
-  I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom API in Node.js and I am calling that API to add a product to the wishlist. 
-  The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not change the button text to "Added to Wishlist". 
-  I have tried to use the  wishlisted  variable to change the button text but it is not working. 
-  I am using the  Alpine.js  library to handle the JavaScript part. 
-  I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom API in Node.js and I am calling that API to add a product to the wishlist. 
-  The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not change the button text to "Added to Wishlist". 
-  I have tried to use the  wishlisted  variable to change the button text but it is not working. 
-  I am using the  Alpine.js  library to handle the JavaScript part. 
-  I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom API in Node.js and I am calling that API to add a product to the wishlist. 
-  The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not change the button text to "Added to Wishlist". 
-  I have tried to use the  wishlisted  variable to change the button text but it is not working. 
-  I am using the  Alpine.js  library to handle the JavaScript part. 
-  I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom API in Node.js and I am calling that API to add a product to the wishlist.
-  The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not change the button text to "Added to Wishlist". {% endcomment %}
+{% comment %}
+I have created a custom section in Shopify and I want to add a product to the wishlist. I have created a custom API in
+Node.js and I am calling that API to add a product to the wishlist.
+The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not
+change the button text to "Added to Wishlist".
+I have tried to use the wishlisted variable to change the button text but it is not working.
+I am using the Alpine.js library to handle the JavaScript part.
+I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom
+API in Node.js and I am calling that API to add a product to the wishlist.
+The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not
+change the button text to "Added to Wishlist".
+I have tried to use the wishlisted variable to change the button text but it is not working.
+I am using the Alpine.js library to handle the JavaScript part.
+I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom
+API in Node.js and I am calling that API to add a product to the wishlist.
+The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not
+change the button text to "Added to Wishlist".
+I have tried to use the wishlisted variable to change the button text but it is not working.
+I am using the Alpine.js library to handle the JavaScript part.
+I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom
+API in Node.js and I am calling that API to add a product to the wishlist.
+The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not
+change the button text to "Added to Wishlist".
+I have tried to use the wishlisted variable to change the button text but it is not working.
+I am using the Alpine.js library to handle the JavaScript part.
+I am trying to create a custom section in Shopify and I want to add a product to the wishlist. I have created a custom
+API in Node.js and I am calling that API to add a product to the wishlist.
+The problem is that when I click on the add to wishlist button, it adds the product to the wishlist but it does not
+change the button text to "Added to Wishlist".
+{% endcomment %}
