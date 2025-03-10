@@ -7,12 +7,7 @@ import db from "../db.server";
 
 //
 export async function loader(){
-  let settings = await db.settings.findUnique({
-    where: {
-      id: "1" // Condition
-    }
-  }
-  );
+  let settings = await db.settings.findFirst();
   return json(settings);
 }
 
