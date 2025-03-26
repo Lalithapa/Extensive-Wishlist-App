@@ -30,7 +30,7 @@ export default function Wishlist_Lists() {
       item.customerId,
       item.productId,
       item.shop,
-      item.createdAt,
+      item.createdAt
     ]);
     setAllWishlist(dataRow);
   }, [wishlist]); // Updates only when wishlist changes
