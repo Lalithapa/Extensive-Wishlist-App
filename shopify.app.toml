@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "c09facb4246890e1354b6ed5b0a2c398"
-application_url = "https://macintosh-findings-against-hunting.trycloudflare.com"
+application_url = "https://surfing-nutrition-wx-optimal.trycloudflare.com"
 embedded = true
 name = "extensive-wishlist"
 handle = "extensive-wishlist"
@@ -28,9 +28,9 @@ scopes = "write_files,write_products"
 
 [auth]
 redirect_urls = [
-  "https://macintosh-findings-against-hunting.trycloudflare.com/auth/callback",
-  "https://macintosh-findings-against-hunting.trycloudflare.com/auth/shopify/callback",
-  "https://macintosh-findings-against-hunting.trycloudflare.com/api/auth/callback"
+  "https://surfing-nutrition-wx-optimal.trycloudflare.com/auth/callback",
+  "https://surfing-nutrition-wx-optimal.trycloudflare.com/auth/shopify/callback",
+  "https://surfing-nutrition-wx-optimal.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

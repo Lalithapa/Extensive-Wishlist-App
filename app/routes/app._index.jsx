@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useFetcher } from "@remix-run/react";
+
 import {
   Page,
   Layout,
@@ -20,6 +21,15 @@ export const loader = async ({ request }) => {
 
   return null;
 };
+// export const loader = async ({ request }) => {
+//   const { billing } = await authenticate.admin(request);
+//   await billing.require({
+//     plans: [MONTHLY_PLAN],
+//     isTest: true,
+//     onFailure: async () => billing.request({ plan: MONTHLY_PLAN }),
+//   });
+//   return null;
+// };
 
 export const action = async ({ request }) => {
   const { admin } = await authenticate.admin(request);
