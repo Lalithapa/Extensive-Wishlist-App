@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "c09facb4246890e1354b6ed5b0a2c398"
-application_url = "https://julie-supposed-premium-morgan.trycloudflare.com"
+application_url = "https://velvet-known-cheaper-win.trycloudflare.com"
 embedded = true
 name = "extensive-wishlist"
 handle = "extensive-wishlist"
@@ -28,9 +28,9 @@ scopes = "write_files,write_products"
 
 [auth]
 redirect_urls = [
-  "https://julie-supposed-premium-morgan.trycloudflare.com/auth/callback",
-  "https://julie-supposed-premium-morgan.trycloudflare.com/auth/shopify/callback",
-  "https://julie-supposed-premium-morgan.trycloudflare.com/api/auth/callback"
+  "https://velvet-known-cheaper-win.trycloudflare.com/auth/callback",
+  "https://velvet-known-cheaper-win.trycloudflare.com/auth/shopify/callback",
+  "https://velvet-known-cheaper-win.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
