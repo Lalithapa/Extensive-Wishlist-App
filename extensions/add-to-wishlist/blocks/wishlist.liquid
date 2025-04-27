@@ -87,7 +87,7 @@
 <script>
   document.addEventListener('alpine:init', () => {
     Alpine.data('wishlist', () => ({
-      api_url: "https://velvet-known-cheaper-win.trycloudflare.com",
+      api_url: "https://federal-far-reduces-chocolate.trycloudflare.com",
       wishlisted: false,
       requestOptions: {
         method: "GET",
@@ -98,7 +98,7 @@
         },
       },
       init() {
-         //console.log("https://velvet-known-cheaper-win.trycloudflare.com");
+         //console.log("https://federal-far-reduces-chocolate.trycloudflare.com");
         fetch(this.api_url + "/api/wishlist?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}", this.requestOptions)
           .then((response) => response.text())
           .then((result) => {
@@ -115,7 +115,7 @@
         let wishlistedValue = button.getAttribute("aria-wishlisted");
 
         const formdata = new FormData();
-        const shop_Api = "https://velvet-known-cheaper-win.trycloudflare.com";
+        const shop_Api = "https://federal-far-reduces-chocolate.trycloudflare.com";
         formdata.append("customerId", "{{ customer.id }}");
         formdata.append("productId", "{{ product.id }}");
         formdata.append("shop", "{{ shop.permanent_domain }}");
