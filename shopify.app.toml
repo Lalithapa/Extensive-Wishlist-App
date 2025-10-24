@@ -1,37 +1,29 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
-
-client_id = "c09facb4246890e1354b6ed5b0a2c398"
-application_url = "https://telescope-automobiles-stake-integrity.trycloudflare.com"
+client_id = "ff83393da1801e09eff3d5c5c04bbc85"
+application_url = "https://stripes-specials-physics-fred.trycloudflare.com"  # or leave blank; CLI will set on dev
 embedded = true
-name = "extensive-wishlist"
-handle = "extensive-wishlist"
+
+name = "wishlist-explorer"
+handle = "wishlist-explorer"
 
 [build]
 automatically_update_urls_on_dev = true
-dev_store_url = "wishlist-lot.myshopify.com"
-include_config_on_deploy = true
-
-[webhooks]
-api_version = "2025-01"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
+dev_store_url = "carttransformer.myshopify.com"
 
 [access_scopes]
-# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_files,write_products"
+scopes = "read_products,write_products,write_files,read_customers,write_customers"
+
+[webhooks]
+api_version = "2024-07"   # use stable for the checker
+
+[[webhooks.subscriptions]]
+compliance_topics = ["customers/data_request","customers/redact","shop/redact"]
+uri = "https://stripes-specials-physics-fred.trycloudflare.com/webhooks/compliance"  # absolute
+
+[[webhooks.subscriptions]]
+topics = ["app/uninstalled"]
+uri = "https://stripes-specials-physics-fred.trycloudflare.com/webhooks/app/uninstalled"
 
 [auth]
-redirect_urls = [
-  "https://telescope-automobiles-stake-integrity.trycloudflare.com/auth/callback",
-  "https://telescope-automobiles-stake-integrity.trycloudflare.com/auth/shopify/callback",
-  "https://telescope-automobiles-stake-integrity.trycloudflare.com/api/auth/callback"
-]
+redirect_urls = ["https://stripes-specials-physics-fred.trycloudflare.com/auth/callback","https://stripes-specials-physics-fred.trycloudflare.com/auth/shopify/callback","https://stripes-specials-physics-fred.trycloudflare.com/api/auth/callback"]
 
-[pos]
-embedded = false

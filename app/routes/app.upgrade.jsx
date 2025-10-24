@@ -13,7 +13,7 @@ export const loader = async ({ request }) => {
       console.log("Billing required, requesting plan...", `https://admin.shopify.com/store/${shopUrl}/apps/${process.env.APP_NAME}/app/wishlist_items`);
       return billing.request({
         plan: MONTHLY_PLAN,
-        isTest: true,
+        isTest: false,
         returnUrl: `https://admin.shopify.com/store/${shopUrl}/apps/${process.env.APP_NAME}/app/wishlist_items`,
       });
     },

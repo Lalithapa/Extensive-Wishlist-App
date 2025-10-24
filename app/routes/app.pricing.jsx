@@ -15,7 +15,7 @@ export const loader = async ({ request }) => {
   const { billing } = await authenticate.admin(request);
  try {
   const billingCheck = await billing.require({
-    isTest: true,
+    isTest: false,
     onFailure: () => {
           throw new Error("No Active Plan");
         }
